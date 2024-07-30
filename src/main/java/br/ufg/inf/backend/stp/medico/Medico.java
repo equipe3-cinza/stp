@@ -2,6 +2,8 @@ package br.ufg.inf.backend.stp.medico;
 
 import br.ufg.inf.backend.stp.especialidade.Especialidade;
 import br.ufg.inf.backend.stp.unidadeHospitalar.UnidadeHospitalar;
+import br.ufg.inf.backend.stp.user.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
@@ -33,5 +36,8 @@ public class Medico {
     @ManyToOne
     @JoinColumn(name = "especialidade_id", nullable = false)
     private Especialidade especialidade;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
     
 }

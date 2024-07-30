@@ -1,4 +1,4 @@
-package br.ufg.inf.backend.stp.prontuario;
+package br.ufg.inf.backend.stp.role;
 
 import java.util.List;
 
@@ -15,40 +15,40 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.websocket.server.PathParam;
 
 @RestController
-@RequestMapping("/prontuario")
-public class ProntuarioController {
+@RequestMapping("/role")
+public class RoleController {
 
 	@Autowired
-	private ProntuarioService service;
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
-	@GetMapping("/{id}")
-	public Prontuario obter(@PathParam(value = "id") Long prontuarioId) {
-		return service.obter(prontuarioId);
-	}
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
-	@DeleteMapping("/{id}")
-	public void remover(@PathParam(value = "id") Long prontuarioId) {
-		service.remover(prontuarioId);
-	}
+	private RoleService service;
 
 	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@GetMapping
-	public List<Prontuario> listar() {
+	public List<Role> listar() {
 		return service.listar();
 	}
 
 	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
+	@GetMapping("/{id}")
+	public Role obter(@PathParam(value = "id") Long roleId) {
+		return service.obter(roleId);
+	}
+
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
+	@DeleteMapping("/{id}")
+	public void remover(@PathParam(value = "id") Long roleId) {
+		service.remover(roleId);
+	}
+
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@PostMapping
-	public Prontuario adicionar(@RequestBody Prontuario prontuario) {
-		return service.salvar(prontuario);
+	public Role adicionar(@RequestBody Role role) {
+		return service.salvar(role);
 	}
 
 	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@PutMapping("/{id}")
-	public Prontuario atualizar(@PathParam(value = "id") Long prontuarioId, @RequestBody Prontuario prontuario) {
-		return service.salvar(prontuarioId, prontuario);
+	public Role atualizar(@PathParam(value = "id") Long roleId, @RequestBody Role role) {
+		return service.salvar(roleId, role);
 	}
 	
 }

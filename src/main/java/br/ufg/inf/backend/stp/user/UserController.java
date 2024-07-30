@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
@@ -25,6 +26,7 @@ public class UserController {
 	@Autowired
 	private PasswordEncoder encoder;
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<User>> listar() {
 		try {
@@ -35,6 +37,7 @@ public class UserController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<User> obter(@PathVariable("id") Long userId) {
 		try {
@@ -49,6 +52,7 @@ public class UserController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remover(@PathVariable("id") Long userId) {
 		try {
@@ -59,6 +63,7 @@ public class UserController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
 	public ResponseEntity<User> adicionar(@RequestBody User user) {
 		try {
@@ -70,6 +75,7 @@ public class UserController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<User> atualizar(@PathVariable("id") Long userId, @RequestBody User user) {
 		try {
