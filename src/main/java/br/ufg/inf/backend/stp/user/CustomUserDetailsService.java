@@ -42,6 +42,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return userRepository.findById(id).orElse(null);
 	}
 
+	public User obter(String username) {
+		return userRepository.findByUsername(username);
+	}
 	public void remover(Long id) {
 		userRepository.deleteById(id);
 	}

@@ -1,20 +1,14 @@
 package br.ufg.inf.backend.stp.user;
 
-import java.util.List;
-
+import br.ufg.inf.backend.stp.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +19,9 @@ public class UserController {
 	
 	@Autowired
 	private PasswordEncoder encoder;
+
+	@Autowired
+	private ApiResponse<User> response;
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping
@@ -50,6 +47,27 @@ public class UserController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
+	}
+
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/{username}")
+	public ResponseEntity<ApiResponse<User>> obter(@PathVariable("username") String username) {
+
+		try {
+			User user = service.obter(username);
+
+			response.setData(user);
+			response.setMessage("Usuário encontrado");
+			response.setSuccess(true);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception e) {
+			response.setData(null);
+			response.setMessage("Erro, usuário não encontrado: " + e.getMessage().split("ERROR:")[1].split("Detail:")[0].trim());
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
