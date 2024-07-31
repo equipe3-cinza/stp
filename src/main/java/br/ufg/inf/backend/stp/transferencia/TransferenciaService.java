@@ -3,6 +3,7 @@ package br.ufg.inf.backend.stp.transferencia;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,7 @@ public class TransferenciaService {
 	@Autowired
 	private TransferenciaRepository repository;
 
+	@PreAuthorize("hasRole('ROLE_MEDICO')")
 	public List<Transferencia> listar() {
 		return repository.findAll();
 	}

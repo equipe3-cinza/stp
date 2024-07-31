@@ -1,11 +1,9 @@
 package br.ufg.inf.backend.stp.prontuario;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,26 +12,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.ufg.inf.backend.stp.ApiResponse;
 
 @RestController
 @RequestMapping("/prontuario")
 public class ProntuarioController {
-
 	@Autowired
 	private ProntuarioService service;
-
 	@Autowired
 	private ApiResponse<Prontuario> response;
-
 	@Autowired
 	private ApiResponse<List<Prontuario>> responseList;
-
 	@Autowired
 	ApiResponse<Void> responseVoid;
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<Prontuario>> obter(@PathVariable("id") Long prontuarioId) {
 		if (prontuarioId == null) {
@@ -61,8 +53,6 @@ public class ProntuarioController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse<Void>> remover(@PathVariable("id") Long prontuarioId) {
 		if (prontuarioId == null) {
@@ -83,8 +73,7 @@ public class ProntuarioController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVoid);
 		}
 	}
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
+	
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<Prontuario>>> listar() {
 		try {
@@ -100,8 +89,7 @@ public class ProntuarioController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseList);
 		}
 	}
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
+	
 	@PostMapping
 	public ResponseEntity<ApiResponse<Prontuario>> adicionar(@RequestBody Prontuario prontuario) {
 		try {
@@ -117,8 +105,7 @@ public class ProntuarioController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<ApiResponse<Prontuario>> atualizar(@PathVariable("id") Long prontuarioId, @RequestBody Prontuario prontuario) {
 		try {
