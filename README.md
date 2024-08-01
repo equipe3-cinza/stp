@@ -14,3 +14,4 @@
 - Wilglison Rilniky Oliveira dos Santos
 
 
+![Diagrama de Classes](https://raw.githubusercontent.com/equipe3-cinza/stp/main/Diagrama%20Classes.svg)
