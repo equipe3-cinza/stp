@@ -30,7 +30,7 @@ public class DocumentoTransferenciaController {
 	private ApiResponse<List<DocumentoTransferencia>> responseList;
 
 	@Autowired
-	ApiResponse<Void> responseVoid;
+	private ApiResponse<Void> responseVoid;
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<DocumentoTransferencia>>> listar() {

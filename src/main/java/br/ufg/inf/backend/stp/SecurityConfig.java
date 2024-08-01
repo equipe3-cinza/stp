@@ -43,6 +43,8 @@ public class SecurityConfig {// WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
+
 /*  autenticação por pagina
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

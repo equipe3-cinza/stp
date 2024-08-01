@@ -30,7 +30,7 @@ public class EnderecoController {
 	private ApiResponse<List<Endereco>> responseList;
 
 	@Autowired
-	ApiResponse<Void> responseVoid;
+	private ApiResponse<Void> responseVoid;
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<Endereco>>> listar() {

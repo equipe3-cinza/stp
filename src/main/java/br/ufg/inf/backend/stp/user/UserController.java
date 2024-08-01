@@ -1,11 +1,10 @@
 package br.ufg.inf.backend.stp.user;
 
 import br.ufg.inf.backend.stp.ApiResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,49 +15,61 @@ public class UserController {
 	
 	@Autowired
 	private CustomUserDetailsService service;
-	
-	@Autowired
-	private PasswordEncoder encoder;
 
 	@Autowired
 	private ApiResponse<User> response;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Autowired
+	private ApiResponse<Void> responseVoid;
+
+	@Autowired
+	private ApiResponse<List<User>> responseList;
+
 	@GetMapping
-	public ResponseEntity<List<User>> listar() {
+	public ResponseEntity<ApiResponse<List<User>>> listar() {
 		try {
 			List<User> users = service.listar();
-			return ResponseEntity.ok(users);
+			responseList.setData(users);
+			responseList.setMessage("Usuários listados com sucesso");
+			responseList.setSuccess(true);
+			return ResponseEntity.ok(responseList);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			responseList.setData(null);
+			responseList.setMessage("Erro ao listar usuários: " + e.getMessage());
+			responseList.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseList);
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}")
-	public ResponseEntity<User> obter(@PathVariable("id") Long userId) {
+	public ResponseEntity<ApiResponse<User>> obter(@PathVariable("id") Long userId) {
 		try {
 			User user = service.obter(userId);
 			if (user != null) {
-				return ResponseEntity.ok(user);
+				response.setData(user);
+				response.setMessage("Usuário encontrado com sucesso");
+				response.setSuccess(true);
+				return ResponseEntity.ok(response);
 			} else {
-				return ResponseEntity.notFound().build();
+				response.setData(null);
+				response.setMessage("Usuário não encontrado");
+				response.setSuccess(false);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			response.setData(null);
+			response.setMessage("Erro ao obter usuário: " + e.getMessage());
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
-
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{username}")
 	public ResponseEntity<ApiResponse<User>> obter(@PathVariable("username") String username) {
-
 		try {
 			User user = service.obter(username);
-
 			response.setData(user);
-			response.setMessage("Usuário encontrado");
+			response.setMessage("Usuário encontrado com sucesso");
 			response.setSuccess(true);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception e) {
@@ -67,44 +78,60 @@ public class UserController {
 			response.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
-
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> remover(@PathVariable("id") Long userId) {
+	public ResponseEntity<ApiResponse<Void>> remover(@PathVariable("id") Long userId) {
 		try {
 			service.remover(userId);
-			return ResponseEntity.noContent().build();
+			responseVoid.setData(null);
+			responseVoid.setMessage("Usuário removido com sucesso");
+			responseVoid.setSuccess(true);
+			return ResponseEntity.ok(responseVoid);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			responseVoid.setData(null);
+			responseVoid.setMessage("Erro ao remover usuário: " + e.getMessage());
+			responseVoid.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseVoid);
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
-	public ResponseEntity<User> adicionar(@RequestBody User user) {
+	public ResponseEntity<ApiResponse<User>> adicionar(@RequestBody User user) {
 		try {
-			user.setPassword(encoder.encode(user.getPassword()));
 			User savedUser = service.salvar(user);
-			return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+			response.setData(savedUser);
+			response.setMessage("Usuário adicionado com sucesso");
+			response.setSuccess(true);
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			response.setData(null);
+			response.setMessage("Erro ao adicionar usuário: " + e.getMessage());
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("/{id}")
-	public ResponseEntity<User> atualizar(@PathVariable("id") Long userId, @RequestBody User user) {
+	public ResponseEntity<ApiResponse<User>> atualizar(@PathVariable("id") Long userId, @RequestBody User user) {
 		try {
 			User updatedUser = service.salvar(userId, user);
 			if (updatedUser != null) {
-				return ResponseEntity.ok(updatedUser);
+				response.setData(updatedUser);
+				response.setMessage("Usuário atualizado com sucesso");
+				response.setSuccess(true);
+				return ResponseEntity.ok(response);
 			} else {
-				return ResponseEntity.notFound().build();
+				response.setData(null);
+				response.setMessage("Usuário não encontrado");
+				response.setSuccess(false);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			response.setData(null);
+			response.setMessage("Erro ao atualizar usuário: " + e.getMessage());
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 }

@@ -30,7 +30,7 @@ public class EspecialidadeController {
 	private ApiResponse<List<Especialidade>> responseList;
 
 	@Autowired
-	ApiResponse<Void> responseVoid ;
+	private ApiResponse<Void> responseVoid ;
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<Especialidade>>> listar() {

@@ -31,9 +31,8 @@ public class TransferenciaController {
 	private ApiResponse<List<Transferencia>> responseList;
 
 	@Autowired
-	ApiResponse<Void> responseVoid;
+	private ApiResponse<Void> responseVoid;
 
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<Transferencia>>> listar() {
 		try {
@@ -50,7 +49,6 @@ public class TransferenciaController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<Transferencia>> obter(@PathVariable("id") Long transferenciaId) {
 		if (transferenciaId == null) {
@@ -79,7 +77,6 @@ public class TransferenciaController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse<Void>> remover(@PathVariable("id") Long transferenciaId) {
 		if (transferenciaId == null) {
@@ -101,7 +98,6 @@ public class TransferenciaController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@PostMapping
 	public ResponseEntity<ApiResponse<Transferencia>> adicionar(@RequestBody Transferencia transferencia) {
 		try {
@@ -118,7 +114,6 @@ public class TransferenciaController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<ApiResponse<Transferencia>> atualizar(@PathVariable("id") Long transferenciaId, @RequestBody Transferencia transferencia) {
 		try {

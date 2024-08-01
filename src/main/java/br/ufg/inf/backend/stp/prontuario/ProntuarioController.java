@@ -24,7 +24,7 @@ public class ProntuarioController {
 	@Autowired
 	private ApiResponse<List<Prontuario>> responseList;
 	@Autowired
-	ApiResponse<Void> responseVoid;
+	private ApiResponse<Void> responseVoid;
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<Prontuario>> obter(@PathVariable("id") Long prontuarioId) {

@@ -30,7 +30,7 @@ public class MedicamentoPrescritoController {
 	private ApiResponse<List<MedicamentoPrescrito>> responseList;
 
 	@Autowired
-	ApiResponse<Void> responseVoid;
+	private ApiResponse<Void> responseVoid;
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<MedicamentoPrescrito>>> listar() {

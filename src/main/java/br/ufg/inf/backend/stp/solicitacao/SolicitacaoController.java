@@ -30,7 +30,7 @@ public class SolicitacaoController {
 	private ApiResponse<List<Solicitacao>> responseList;
 
 	@Autowired
-	ApiResponse<Void> responseVoid;
+	private ApiResponse<Void> responseVoid;
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<Solicitacao>>> listar() {

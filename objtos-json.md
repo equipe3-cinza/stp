@@ -243,16 +243,50 @@ tags: ufg, fullstack, stp
   }
 
 ```
+--- 
 
+## Medico
 ```json=
+{
+  "nome": "Dr. João Silva",
+  "crm": "123456",
+  "telefone": "(11) 98765-4321",
+  "papel": "MEDICO",
+  "unidadeHospitalar": {
+    "id": 1
+  },
+  "especialidade": {
+    "id": 1
+  },
+  "user": {
+    "username": "joao.silva",
+    "password": "123"
+  }
+}
 
 
 ```
 
 ```json=
-
+{
+  "nome": "Dra. Maria Santos",
+  "crm": "789012",
+  "telefone": "(21) 99876-5432",
+  "papel": "REGULADOR",
+  "unidadeHospitalar": {
+    "id": 2
+  },
+  "especialidade": {
+    "id": 3
+  },
+  "user": {
+    "username": "medicaMaria",
+    "password": "123"
+  }
+}
 
 ```
+---
 
 ```json=
 
