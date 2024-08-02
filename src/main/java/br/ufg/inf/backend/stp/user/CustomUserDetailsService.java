@@ -37,15 +37,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return user;
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_MEDICO') or hasRole('ROLE_ADMIN')")	
 	public List<User> listar() {
 		return userRepository.findAll();
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_MEDICO') or hasRole('ROLE_ADMIN')")	
 	public User salvar(User user) {
-		//PasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
+		PasswordEncoder pencoder = new BCryptPasswordEncoder();
+		System.err.println(user.getPassword());
+		user.setPassword(pencoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
@@ -55,8 +56,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 			System.out.println("----------Usuario ADMIN já existe no banco de dados!");
 			return;
 		}
-		
-		//BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String hashedPassword = encoder.encode("admin123");
 		Role role = new Role();
 		role.setRole(TypesRole.ROLE_ADMIN);
@@ -69,23 +68,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 		System.out.println("----------Usuario ADMIN criado=" + user.getUsername() + ":" + user.getPassword());
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_MEDICO') or hasRole('ROLE_ADMIN')")	
 	public User salvar(Long id, User user) {
 		user.setId(id);
 		return userRepository.save(user);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_MEDICO') or hasRole('ROLE_ADMIN')")	
 	public User obter(Long id) {
 		return userRepository.findById(id).orElse(null);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_MEDICO') or hasRole('ROLE_ADMIN')")	
 	public User obter(String username) {
 		return userRepository.findByUsername(username);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_MEDICO') or hasRole('ROLE_ADMIN')")	
 	public void remover(Long id) {
 		userRepository.deleteById(id);
 	}

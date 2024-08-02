@@ -7,6 +7,8 @@ import br.ufg.inf.backend.stp.prontuario.Prontuario;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,6 +38,7 @@ public class Paciente {
     private String email;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoSanguineo tipoSanguineo;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -17,20 +17,24 @@ public class UnidadeHospitalarService {
 	public List<UnidadeHospitalar> listar() {
 		return repository.findAll();
 	}
-	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public UnidadeHospitalar salvar(UnidadeHospitalar unidadeHospitalar) {
 		return repository.save(unidadeHospitalar);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public UnidadeHospitalar salvar(Long id, UnidadeHospitalar unidadeHospitalar) {
 		unidadeHospitalar.setId(id);
 		return repository.save(unidadeHospitalar);
 	}
 
+
 	public UnidadeHospitalar obter(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void remover(Long id) {
 		repository.deleteById(id);
 	}
