@@ -2,6 +2,8 @@ package br.ufg.inf.backend.stp.transferencia;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
+
 import br.ufg.inf.backend.stp.documentoTransferencia.DocumentoTransferencia;
 import br.ufg.inf.backend.stp.medico.Medico;
 import br.ufg.inf.backend.stp.paciente.Paciente;
@@ -32,11 +34,11 @@ public class Transferencia {
 	@Column(name = "meio_transporte", length = 20)
 	private MeioTransporte meioTransporte;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "destino_id", nullable = false)
 	private UnidadeHospitalar destino;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "origem_id", nullable = false)
 	private UnidadeHospitalar origem;
 	

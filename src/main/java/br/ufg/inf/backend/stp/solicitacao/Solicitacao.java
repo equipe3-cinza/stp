@@ -7,6 +7,7 @@ import br.ufg.inf.backend.stp.documentoTransferencia.DocumentoTransferencia;
 import br.ufg.inf.backend.stp.especialidade.Especialidade;
 import br.ufg.inf.backend.stp.medico.Medico;
 import br.ufg.inf.backend.stp.paciente.Paciente;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Solicitacao {
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "documento_id", nullable = false, unique = true)
     private DocumentoTransferencia documento;
     

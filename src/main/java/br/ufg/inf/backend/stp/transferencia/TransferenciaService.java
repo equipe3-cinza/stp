@@ -8,12 +8,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import br.ufg.inf.backend.stp.unidadeHospitalar.UnidadeHospitalar;
+import br.ufg.inf.backend.stp.unidadeHospitalar.UnidadeHospitalarService;
 
 @Service
 public class TransferenciaService {
 
 	@Autowired
 	private TransferenciaRepository repository;
+
+	@Autowired
+	private UnidadeHospitalarService hospitalRepository;
 
 	private static final double EARTH_RADIUS = 6371;
 
@@ -25,6 +29,8 @@ public class TransferenciaService {
 	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR')")	
 	public Transferencia salvar(Transferencia transferencia) {
 		validarTransferencia(transferencia);
+		transferencia.setOrigem(hospitalRepository.obter(transferencia.getOrigem().getId()));
+		transferencia.setDestino(hospitalRepository.obter(transferencia.getDestino().getId()));
 		calcularDistancia(transferencia);
 		calcularHorarioPrevistoChegada(transferencia);
 		return repository.save(transferencia);
