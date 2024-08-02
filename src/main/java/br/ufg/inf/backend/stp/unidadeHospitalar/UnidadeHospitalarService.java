@@ -14,27 +14,28 @@ public class UnidadeHospitalarService {
 	@Autowired
 	private UnidadeHospitalarRepository repository;
 
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
 	public List<UnidadeHospitalar> listar() {
 		return repository.findAll();
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
 	public UnidadeHospitalar salvar(UnidadeHospitalar unidadeHospitalar) {
 		return repository.save(unidadeHospitalar);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
 	public UnidadeHospitalar salvar(Long id, UnidadeHospitalar unidadeHospitalar) {
 		unidadeHospitalar.setId(id);
 		return repository.save(unidadeHospitalar);
 	}
 
-
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
 	public UnidadeHospitalar obter(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_MEDICO_REGULADOR') or hasRole('ROLE_ADMIN')")
 	public void remover(Long id) {
 		repository.deleteById(id);
 	}
